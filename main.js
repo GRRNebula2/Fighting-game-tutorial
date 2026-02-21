@@ -88,6 +88,33 @@ scene("fight", () => {
         pos(290, 115)
        ])
     
+    
+       function makePlayer(posX, posY, width, height, scaleFactor, id) {
+        return add([
+            pos(posX, posY),
+            scale(scaleFactor),
+            area({shape: new Rect(vec2(0), width, height)}),
+            anchor("center"),
+            body({stickToPlatform: true}),
+            {
+                isCurrentlyJumping: false,
+                health: 500,
+                sprites: {
+                    run: "run-" + id,
+                    idle: "idle-" + id,
+                    jump: "jump-" + id,
+                    attack: "attack-" + id,
+                    death: "death-" + id
+                }
+            }
+        ])
+    }
+
+    setGravity(3200)
+
+    const player1 = makePlayer(200, 100, 16, 42, 4, "player1")
+    player1.use(sprite(player1.sprites.idle))
+    player1.play("idle")
 
 })
 
