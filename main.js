@@ -12,6 +12,8 @@ kaboom({
     //letterbox: true
 })
 
+load.assets()
+
 //loadSprite("background", "assets/background/background_layer_1.png"),
         
 scene("fight", () => {
