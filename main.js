@@ -59,7 +59,35 @@ scene("fight", () => {
 
     shop.play("default")
 
+    add([
+        rect(16, 720),
+        area(),
+        body({isStatic: true}),
+        pos(-20,0)
+    ])
 
+    add([
+        rect(16, 720),
+        area(),
+        body({isStatic: true}),
+        pos(1280, 0)
+    ])
+
+    background.add([
+        sprite("fence"),
+        pos(85, 125)
+       ])
+    
+       background.add([
+        sprite("fence"),
+        pos(10, 125)
+       ])
+    
+       background.add([
+        sprite("sign"),
+        pos(290, 115)
+       ])
+    
 
 })
 
