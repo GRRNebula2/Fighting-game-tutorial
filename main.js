@@ -186,6 +186,46 @@ scene("fight", () => {
 
     player1.onUpdate(() => resetAfterJump(player1))
 
+    function attack(player, excludedKeys) {
+        if (player.health === 0) {
+            return
+        }
+
+        for (const key of excludedKeys) {
+            if (isKeyDown(key)) {
+                return
+            }
+        }
+
+        const currentFlip = player.flipX
+        if (player.curAnim() !== "attack") {
+            player.use(sprite(player.sprites.attack))
+            player.flipX = currentFlip
+            const slashX = player.pos.x + 30
+            const slashXFlipped = player.pos.x - 350
+            const slashY = player.pos.y - 200
+
+            add([
+                rect(300, 300),
+                area(),
+                pos(currentFlip ? slashXFlipped: slashX, slashY),
+                opacity(0),
+                player.id +"attackHitbox"
+            ])
+            
+            player.play("attack", {
+                onEnd: () => {
+                    resetPlayerToIdle(player)
+                    player.flipX = currentFlip
+                }
+            })
+        }
+
+    }
+
+    onKeyDown("space", () => {
+        attack(player1, ["a", "d", "w"])
+    })
 
 })
 
