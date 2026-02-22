@@ -227,7 +227,52 @@ scene("fight", () => {
         attack(player1, ["a", "d", "w"])
     })
 
+    onKeyRelease("space", () => {
+        destroyAll(player1.id + "attackHitbox")
+    })
+
+    const player2 = makePlayer(1000, 200, 16, 52, 4, "player2")
+    player2.use(sprite(player2.sprites.idle))
+    player2.play("idle")
+    player2.flipX
+
+    onKeyDown("right", () => {
+        run(player2, 500, false)
+    })
+
+    onKeyRelease("right", () => {
+        if (player2.health !== 0) {
+            resetPlayerToIdle(player2)
+            player2.flipX
+        }
+    })
+
+    onKeyDown("left", () => {
+        run(player2, -500, true)
+    })
+
+    onKeyRelease("left", () => {
+        resetPlayerToIdle(player2)
+        player2.flipX = true
+    })
+
+    onKeyDown("up", () => {
+        makeJump(player2)
+    })
+
+    player2.onUpdate(() => resetAfterJump(player2))
+
+    onKeyPress("down", () => {
+        attack(player2, ["left", "right", "up"])
+    })
+
+    onKeyRelease("down", () => {
+        destroyAll(player2.id + "attackHitbox")
+    })
+
 })
+
+
 
 
 
