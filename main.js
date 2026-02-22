@@ -223,7 +223,7 @@ scene("fight", () => {
 
     }
 
-    onKeyDown("space", () => {
+    onKeyPress("space", () => {
         attack(player1, ["a", "d", "w"])
     })
 
