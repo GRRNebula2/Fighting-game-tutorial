@@ -1,4 +1,4 @@
-export class Player {}
+export class Player {
 
 constructor(
     positionX,
@@ -42,7 +42,7 @@ makePlayer(posX, posY, id) {
     ])
 }
 
-function run(speed, flipPlayer) {
+run(speed, flipPlayer) {
     if (player.health === 0) {
         return
     }
@@ -56,7 +56,7 @@ function run(speed, flipPlayer) {
     player.flipX = flipPlayer
 }
 
-function resetPlayerToIdle() {
+resetPlayerToIdle() {
     player.use(sprite(player.sprites.idle))
     player.play("idle")
 }
@@ -64,6 +64,7 @@ function resetPlayerToIdle() {
 onKeyDown(this.right, () => {
     run(this.speed, false)
 })
+
 onKeyRelease(this.right, () => {
     if (player.health !== 0) {
         resetPlayerToIdle()
@@ -158,3 +159,4 @@ onKeyRelease(this.attackKey, () => {
     destroyAll(player.id + "attackHitbox")
 })
 
+}
