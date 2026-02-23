@@ -1,4 +1,4 @@
-export class Player {
+/*export class Player {
 
 constructor(
     positionX,
@@ -45,7 +45,7 @@ makePlayer() {
 
 setPlayerMovement() {
 
-run(speed, flipPlayer) {
+run(speed, flipPlayer, () => {
     if (player.health === 0) {
         return
     }
@@ -57,12 +57,12 @@ run(speed, flipPlayer) {
     }
     player.move(speed, 0)
     player.flipX = flipPlayer
-}
+})
 
-resetPlayerToIdle() {
+resetPlayerToIdle(() => {
     player.use(sprite(player.sprites.idle))
     player.play("idle")
-}
+})
 
 onKeyDown(this.right, () => {
     run(this.speed, false)
@@ -86,7 +86,7 @@ onKeyRelease(this.left, () => {
     }
 })
 
-makeJump() {
+makeJump( () => {
     if (player.health === 0) {
         return
     }
@@ -99,16 +99,16 @@ makeJump() {
         player.play("jump")
         player.isCurrentlyJumping = true
     }
-}
+})
 
-resetAfterJump() {
+resetAfterJump(() => {
     if (player.isGrounded() && player.isCurrentlyJumping) {
         player.isCurrentlyJumping = false
         if (player.curAnim() !== "idle") {
             resetPlayerToIdle(player)
         }
     }
-}
+})
 
 onKeyDown(this.up, () => {
     makeJump()
@@ -117,7 +117,7 @@ onKeyDown(this.up, () => {
 onUpdate(() => resetAfterJump())
 
 
-attack(excludedKeys) {
+attack(excludedKeys, () => {
     if (player.health === 0) {
         return  
     }
@@ -152,7 +152,7 @@ attack(excludedKeys) {
         })
     }
 
-}
+})
 
 onKeyPress(this.attackKey, () => {
     attack([this.left, this.right, this.jump])
@@ -163,4 +163,4 @@ onKeyRelease(this.attackKey, () => {
 })
 }
 
-}
+} */
