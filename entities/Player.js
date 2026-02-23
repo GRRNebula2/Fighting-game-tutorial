@@ -1,14 +1,15 @@
+export class Player {}
+
 constructor(
-positionX,
-positionY,
-speed,
-left,
-right,
-jump,
-attackKey,
-id
-) 
-{
+    positionX,
+    positionY,
+    speed,
+    left,
+    right,
+    jump,
+    attackKey,
+    id
+    ) {
     this.positionX = positionX,
     this.positionY = positionY,
     this.speed = speed
@@ -21,7 +22,7 @@ id
 }
 
 makePlayer(posX, posY, id) {
-        add([
+    add([
         pos(posX, posY),
         scale(4),
         area({shape: new Rect(vec2(0), 16, 42)}),
