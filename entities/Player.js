@@ -19,7 +19,7 @@ constructor(
     this.attackKey = attackKey,
     this.id = id
     this.makePlayer(positionX, positionY, id)
-    this.setPlayerControls()
+    this.setPlayerMovement()
 }
 
 makePlayer(posX, posY, id) {
@@ -43,9 +43,9 @@ makePlayer(posX, posY, id) {
     ])
 }
 
-setPlayerControls() {
+setPlayerMovement() {
 
-run(this.speed, flipPlayer) {
+run(speed, flipPlayer) {
     if (player.health === 0) {
         return
     }
@@ -55,7 +55,7 @@ run(this.speed, flipPlayer) {
         player.use(sprite(player.sprites.run))
         player.play("run")
     }
-    player.move(this.speed, 0)
+    player.move(speed, 0)
     player.flipX = flipPlayer
 }
 
@@ -117,7 +117,7 @@ onKeyDown(this.up, () => {
 onUpdate(() => resetAfterJump())
 
 
-function attack(excludedKeys) {
+attack(excludedKeys) {
     if (player.health === 0) {
         return  
     }
@@ -162,4 +162,5 @@ onKeyRelease(this.attackKey, () => {
     destroyAll(player.id + "attackHitbox")
 })
 }
+
 }
