@@ -18,13 +18,13 @@ constructor(
     this.jump = jump,
     this.attackKey = attackKey,
     this.id = id
-    this.makePlayer(positionX, positionY, id)
+    this.makePlayer()
     this.setPlayerMovement()
 }
 
-makePlayer(posX, posY, id) {
+makePlayer() {
     add([
-        pos(posX, posY),
+        pos(this.positionX, this.positionY),
         scale(4),
         area({shape: new Rect(vec2(0), 16, 42)}),
         anchor("center"),
@@ -33,11 +33,11 @@ makePlayer(posX, posY, id) {
             isCurrentlyJumping: false,
             health: 500,
             sprites: {
-                run: "run-" + id,
-                idle: "idle-" + id,
-                jump: "jump-" + id,
-                attack: "attack-" + id,
-                death: "death-" + id
+                run: "run-" + this.id,
+                idle: "idle-" + this.id,
+                jump: "jump-" + this.id,
+                attack: "attack-" + this.id,
+                death: "death-" + this.id
             }
         }
     ])
