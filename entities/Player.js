@@ -2,8 +2,8 @@ export class Player {
   constructor(positionX, positionY, speed, left, right, jump, attackKey, id) {
     (this.positionX = positionX),
       (this.positionY = positionY),
-      (this.speed = speed);
-    (this.left = left),
+      (this.speed = speed),
+      (this.left = left),
       (this.right = right),
       (this.jump = jump),
       (this.attackKey = attackKey),
@@ -34,78 +34,79 @@ export class Player {
   }
 
   setPlayerMovement() {
-    run(speed, flipPlayer, () => {
-      if (player.health === 0) {
+    function run(speed, flipPlayer) {
+      if (this.health === 0) {
         return;
       }
-
-      if (player.curAnim() !== "run" && !player.isCurrentlyJumping) {
-        player.use(sprite(player.sprites.run));
-        player.play("run");
+      if (this.curAnim() !== "run" && !this.isCurrentlyJumping) {
+        this.use(sprite(this.sprites.run));
+        this.play("run");
       }
-      player.move(speed, 0);
-      player.flipX = flipPlayer;
-    });
+      this.move(speed, 0);
+      this.flipX = flipPlayer;
+    }
 
-    resetPlayerToIdle(() => {
-      player.use(sprite(player.sprites.idle));
-      player.play("idle");
-    });
+    function resetPlayerToIdle() {
+      this.use(sprite(this.sprites.idle));
+      this.play("idle");
+    }
 
     onKeyDown(this.right, () => {
       run(this.speed, false);
-    });
+    })
 
-    onKeyRelease(this.right, () => {
-      if (player.health !== 0) {
+    onKeyRelease(this.right) {
+      if (this.health !== 0) {
         resetPlayerToIdle();
-        player.flipX = false;
+        this.flipX = false;
       }
-    });
+    }
 
     onKeyDown(this.left, () => {
       run(-this.speed, true);
-    });
+    })
 
-    onKeyRelease(this.left, () => {
-      if (player.health !== 0) {
-        resetPlayerToIdle(player1);
-        player.flipX = true;
+    onKeyRelease(this.left) {
+      if (this.health !== 0) {
+        resetPlayerToIdle();
+        this.flipX = true;
       }
-    });
+    }
 
-    makeJump(() => {
-      if (player.health === 0) {
+    makeJump() {
+      if (this.health === 0) {
         return;
       }
 
       if (player.isGrounded()) {
         const currentFlip = player.flipX;
-        player.jump();
-        player.use(sprite(player.sprites.jump));
-        player.flipX = currentFlip;
-        player.play("jump");
-        player.isCurrentlyJumping = true;
+        this.jump();
+        this.use(sprite(this.sprites.jump));
+        this.flipX = currentFlip;
+        this.play("jump");
+        this.isCurrentlyJumping = true;
       }
-    });
+    }
 
-    resetAfterJump(() => {
-      if (player.isGrounded() && player.isCurrentlyJumping) {
-        player.isCurrentlyJumping = false;
-        if (player.curAnim() !== "idle") {
-          resetPlayerToIdle(player);
+    resetAfterJump() {
+      if (this.isGrounded() && this.isCurrentlyJumping) {
+        this.isCurrentlyJumping = false;
+        if (this.curAnim() !== "idle") {
+          resetPlayerToIdle();
         }
       }
-    });
+    }
 
-    onKeyDown(this.up, () => {
+    onKeyDown(this.up, ()=> {
       makeJump();
-    });
+    })
 
-    onUpdate(() => resetAfterJump());
+    onUpdate(() => {
+        resetAfterJump()
+    })
 
-    attack(excludedKeys, () => {
-      if (player.health === 0) {
+    attack(excludedKeys){
+      if (this.health === 0) {
         return;
       }
 
@@ -114,38 +115,37 @@ export class Player {
           return;
         }
       }
-
-      const currentFlip = player.flipX;
-      if (player.curAnim() !== "attack") {
-        player.use(sprite(player.sprites.attack));
-        player.flipX = currentFlip;
-        const slashX = player.pos.x + 30;
-        const slashXFlipped = player.pos.x - 350;
-        const slashY = player.pos.y - 200;
+      const currentFlip = this.flipX;
+      if (this.curAnim() !== "attack") {
+        this.use(sprite(this.sprites.attack));
+        this.flipX = currentFlip;
+        const slashX = this.pos.x + 30;
+        const slashXFlipped = this.pos.x - 350;
+        const slashY = this.pos.y - 200;
 
         add([
           rect(300, 300),
           area(),
           pos(currentFlip ? slashXFlipped : slashX, slashY),
           opacity(0),
-          player.id + "attackHitbox",
+          this.id + "attackHitbox",
         ]);
 
-        player.play("attack", {
+        this.play("attack", {
           onEnd: () => {
-            resetPlayerToIdle(player);
-            player.flipX = currentFlip;
+            resetPlayerToIdle();
+            this.flipX = currentFlip;
           },
         });
       }
-    });
+    }
 
     onKeyPress(this.attackKey, () => {
       attack([this.left, this.right, this.jump]);
-    });
+    })
 
-    onKeyRelease(this.attackKey, () => {
-      destroyAll(player.id + "attackHitbox");
-    });
+    onKeyRelease(this.attackKey) {
+      destroyAll(this.id + "attackHitbox");
+    }
   }
 }
