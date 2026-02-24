@@ -79,7 +79,7 @@ export class Player {
         return;
       }
 
-      if (player.isGrounded()) {
+      if (this.isGrounded()) {
         const currentFlip = player.flipX;
         this.jump();
         this.use(sprite(this.sprites.jump));
