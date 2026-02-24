@@ -34,7 +34,7 @@ export class Player {
   }
 
   setPlayerMovement() {
-    function run(speed, flipPlayer) {
+    run(speed, flipPlayer) {
       if (this.health === 0) {
         return;
       }
@@ -46,7 +46,7 @@ export class Player {
       this.flipX = flipPlayer;
     }
 
-    function resetPlayerToIdle() {
+    resetPlayerToIdle() {
       this.use(sprite(this.sprites.idle));
       this.play("idle");
     }
