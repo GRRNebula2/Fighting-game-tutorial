@@ -8,6 +8,7 @@ export class Player {
       (this.jump = jump),
       (this.attackKey = attackKey),
       (this.id = id);
+      this.excludedKeys = [this.left, this.right, this.jump]
     this.makePlayer();
     this.setPlayerMovement();
   }
@@ -105,12 +106,12 @@ export class Player {
         resetAfterJump()
     })
 
-    attack(excludedKeys){
+    attack() {
       if (this.health === 0) {
         return;
       }
 
-      for (const key of excludedKeys) {
+      for (const key of this.excludedKeys) {
         if (isKeyDown(key)) {
           return;
         }
@@ -141,7 +142,7 @@ export class Player {
     }
 
     onKeyPress(this.attackKey, () => {
-      attack([this.left, this.right, this.jump]);
+      attack();
     })
 
     onKeyRelease(this.attackKey) {
