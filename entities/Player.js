@@ -8,7 +8,7 @@ export class Player {
       (this.jump = jump),
       (this.attackKey = attackKey),
       (this.id = id);
-      this.excludedKeys = [this.left, this.right, this.jump]
+      this.excludedKeys = [this.left, this.right, this.jump],
     this.makePlayer();
     this.setPlayerMovement();
   }
