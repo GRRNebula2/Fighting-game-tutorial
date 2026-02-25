@@ -8,9 +8,9 @@ export class Player {
       (this.jump = jump),
       (this.attackKey = attackKey),
       (this.id = id);
-      this.excludedKeys = [this.left, this.right, this.jump],
-    this.makePlayer();
+    (this.excludedKeys = [this.left, this.right, this.jump]), this.makePlayer();
     this.setPlayerMovement();
+    this.update();
   }
 
   makePlayer() {
@@ -35,118 +35,120 @@ export class Player {
   }
 
   setPlayerMovement() {
-    run(speed, flipPlayer) {
-      if (this.health === 0) {
-        return;
-      }
-      if (this.curAnim() !== "run" && !this.isCurrentlyJumping) {
-        this.use(sprite(this.sprites.run));
-        this.play("run");
-      }
-      this.move(speed, 0);
-      this.flipX = flipPlayer;
-    }
-
-    resetPlayerToIdle() {
-      this.use(sprite(this.sprites.idle));
-      this.play("idle");
-    }
-
     onKeyDown(this.right, () => {
       run(this.speed, false);
-    })
+    });
 
-    onKeyRelease(this.right) {
+    onKeyRelease(this.right, () => {
       if (this.health !== 0) {
         resetPlayerToIdle();
         this.flipX = false;
       }
-    }
+    });
 
     onKeyDown(this.left, () => {
       run(-this.speed, true);
-    })
+    });
 
-    onKeyRelease(this.left) {
+    onKeyRelease(this.left, () => {
       if (this.health !== 0) {
         resetPlayerToIdle();
         this.flipX = true;
       }
-    }
+    });
 
-    makeJump() {
-      if (this.health === 0) {
-        return;
-      }
-
-      if (this.isGrounded()) {
-        const currentFlip = player.flipX;
-        this.jump();
-        this.use(sprite(this.sprites.jump));
-        this.flipX = currentFlip;
-        this.play("jump");
-        this.isCurrentlyJumping = true;
-      }
-    }
-
-    resetAfterJump() {
-      if (this.isGrounded() && this.isCurrentlyJumping) {
-        this.isCurrentlyJumping = false;
-        if (this.curAnim() !== "idle") {
-          resetPlayerToIdle();
-        }
-      }
-    }
-
-    onKeyDown(this.up, ()=> {
+    onKeyDown(this.up, () => {
       makeJump();
-    })
-
-    onUpdate(() => {
-        resetAfterJump()
-    })
-
-    attack() {
-      if (this.health === 0) {
-        return;
-      }
-
-      for (const key of this.excludedKeys) {
-        if (isKeyDown(key)) {
-          return;
-        }
-      }
-      const currentFlip = this.flipX;
-      if (this.curAnim() !== "attack") {
-        this.use(sprite(this.sprites.attack));
-        this.flipX = currentFlip;
-        const slashX = this.pos.x + 30;
-        const slashXFlipped = this.pos.x - 350;
-        const slashY = this.pos.y - 200;
-
-        add([
-          rect(300, 300),
-          area(),
-          pos(currentFlip ? slashXFlipped : slashX, slashY),
-          opacity(0),
-          this.id + "attackHitbox",
-        ]);
-
-        this.play("attack", {
-          onEnd: () => {
-            resetPlayerToIdle();
-            this.flipX = currentFlip;
-          },
-        });
-      }
-    }
+    });
 
     onKeyPress(this.attackKey, () => {
       attack();
-    })
+    });
 
-    onKeyRelease(this.attackKey) {
+    onKeyRelease(this.attackKey, () => {
       destroyAll(this.id + "attackHitbox");
+    });
+  }
+
+  run(speed, flipPlayer) {
+    if (this.health === 0) {
+      return;
+    }
+    if (this.curAnim() !== "run" && !this.isCurrentlyJumping) {
+      this.use(sprite(this.sprites.run));
+      this.play("run");
+    }
+    this.move(speed, 0);
+    this.flipX = flipPlayer;
+  }
+
+  resetPlayerToIdle() {
+    this.use(sprite(this.sprites.idle));
+    this.play("idle");
+  }
+
+  makeJump() {
+    if (this.health === 0) {
+      return;
+    }
+
+    if (this.isGrounded()) {
+      const currentFlip = player.flipX;
+      this.jump();
+      this.use(sprite(this.sprites.jump));
+      this.flipX = currentFlip;
+      this.play("jump");
+      this.isCurrentlyJumping = true;
+    }
+  }
+
+  resetAfterJump() {
+    if (this.isGrounded() && this.isCurrentlyJumping) {
+      this.isCurrentlyJumping = false;
+      if (this.curAnim() !== "idle") {
+        resetPlayerToIdle();
+      }
+    }
+  }
+
+  update() {
+    onUpdate(() => {
+      resetAfterJump();
+    });
+  }
+
+  attack() {
+    if (this.health === 0) {
+      return;
+    }
+
+    for (const key of this.excludedKeys) {
+      if (isKeyDown(key)) {
+        return;
+      }
+    }
+    const currentFlip = this.flipX;
+    if (this.curAnim() !== "attack") {
+      this.use(sprite(this.sprites.attack));
+      this.flipX = currentFlip;
+      const slashX = this.pos.x + 30;
+      const slashXFlipped = this.pos.x - 350;
+      const slashY = this.pos.y - 200;
+
+      add([
+        rect(300, 300),
+        area(),
+        pos(currentFlip ? slashXFlipped : slashX, slashY),
+        opacity(0),
+        this.id + "attackHitbox",
+      ]);
+
+      this.play("attack", {
+        onEnd: () => {
+          resetPlayerToIdle();
+          this.flipX = currentFlip;
+        },
+      });
     }
   }
 }
