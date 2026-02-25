@@ -115,12 +115,12 @@ scene("fight", () => {
       winningText.text = "Tie!";
     } else if (player1.health > 0 && player2.health === 0) {
       winningText.text = "Player 1 won!";
-      player2.use(sprite(player2.sprites.death));
-      player2.play("death");
+      //player2.use(sprite(player2.sprites.death));
+      //player2.play("death");
     } else {
       winningText.text = "Player 2 won";
-      player1.use(sprite(player1.sprites.death));
-      player1.play("death");
+      //player1.use(sprite(player1.sprites.death));
+      //player1.play("death");
     }
   }
 
@@ -152,7 +152,7 @@ scene("fight", () => {
     rotate(180),
   ]);
 
-  player1.onCollide(player2.id + "attackHitbox", () => {
+  onCollide(player1, player2.id + "attackHitbox", () => {
     if (gameOver) {
       return;
     }
@@ -191,7 +191,7 @@ scene("fight", () => {
     pos(2.5, 2.5),
   ]);
 
-  player2.onCollide(player1.id + "attackHitbox", () => {
+  onCollide(player2, player1.id + "attackHitbox", () => {
     if (gameOver) {
       return;
     }
