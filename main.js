@@ -115,7 +115,7 @@ scene("fight", () => {
       winningText.text = "Tie!";
     } else if (player1.gameObj.health > 0 && player2.gameObj.health === 0) {
       winningText.text = "Player 1 won!";
-      player2.gameObj.use(sprite(player2.sprites.death));
+      player2.gameObj.use(sprite(player2.gameObj.sprites.death));
       player2.gameObj.play("death");
     } else {
       winningText.text = "Player 2 won";
