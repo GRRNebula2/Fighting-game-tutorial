@@ -1,3 +1,5 @@
+import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
+
 export class Player {
   constructor(positionX, positionY, speed, left, right, jump, attackKey, id) {
     (this.positionX = positionX),
@@ -14,7 +16,7 @@ export class Player {
   }
 
   makePlayer() {
-    add([
+    this.gameObj = add([
       pos(this.positionX, this.positionY),
       scale(4),
       area({ shape: new Rect(vec2(0), 16, 42) }),
@@ -36,33 +38,33 @@ export class Player {
 
   setPlayerMovement() {
     onKeyDown(this.right, () => {
-      run(this.speed, false);
+      this.run(this.speed, false);
     });
 
     onKeyRelease(this.right, () => {
       if (this.health !== 0) {
-        resetPlayerToIdle();
+        this.resetPlayerToIdle();
         this.flipX = false;
       }
     });
 
     onKeyDown(this.left, () => {
-      run(-this.speed, true);
+      this.run(-this.speed, true);
     });
 
     onKeyRelease(this.left, () => {
       if (this.health !== 0) {
-        resetPlayerToIdle();
+        this.resetPlayerToIdle();
         this.flipX = true;
       }
     });
 
     onKeyDown(this.up, () => {
-      makeJump();
+      this.makeJump();
     });
 
     onKeyPress(this.attackKey, () => {
-      attack();
+      this.attack();
     });
 
     onKeyRelease(this.attackKey, () => {
@@ -71,54 +73,54 @@ export class Player {
   }
 
   run(speed, flipPlayer) {
-    if (this.health === 0) {
+    if (this.gameObj.health === 0) {
       return;
     }
-    if (this.curAnim() !== "run" && !this.isCurrentlyJumping) {
-      this.use(sprite(this.sprites.run));
-      this.play("run");
+    if (this.gameObj.curAnim() !== "run" && !this.gameObj.isCurrentlyJumping) {
+      this.gameObj.use(sprite(this.sprites.run));
+      this.gameObj.play("run");
     }
-    this.move(speed, 0);
+    this.gameObj.move(speed, 0);
     this.flipX = flipPlayer;
   }
 
   resetPlayerToIdle() {
-    this.use(sprite(this.sprites.idle));
-    this.play("idle");
+    this.gameObj.use(sprite(this.sprites.idle));
+    this.gameObj.play("idle");
   }
 
   makeJump() {
-    if (this.health === 0) {
+    if (this.gameObj.health === 0) {
       return;
     }
 
-    if (this.isGrounded()) {
+    if (this.gameObj.isGrounded()) {
       const currentFlip = player.flipX;
-      this.jump();
-      this.use(sprite(this.sprites.jump));
+      this.gameObj.jump();
+      this.gameObj.use(sprite(this.sprites.jump));
       this.flipX = currentFlip;
-      this.play("jump");
-      this.isCurrentlyJumping = true;
+      this.gameObj.play("jump");
+      this.gameObj.isCurrentlyJumping = true;
     }
   }
 
   resetAfterJump() {
-    if (this.isGrounded() && this.isCurrentlyJumping) {
-      this.isCurrentlyJumping = false;
-      if (this.curAnim() !== "idle") {
-        resetPlayerToIdle();
+    if (this.gameObj.isGrounded() && this.gameObj.isCurrentlyJumping) {
+      this.gameObj.isCurrentlyJumping = false;
+      if (this.gameObj.curAnim() !== "idle") {
+        this.resetPlayerToIdle();
       }
     }
   }
 
   update() {
     onUpdate(() => {
-      resetAfterJump();
+      this.resetAfterJump();
     });
   }
 
   attack() {
-    if (this.health === 0) {
+    if (this.gameObj.health === 0) {
       return;
     }
 
@@ -128,8 +130,8 @@ export class Player {
       }
     }
     const currentFlip = this.flipX;
-    if (this.curAnim() !== "attack") {
-      this.use(sprite(this.sprites.attack));
+    if (this.gameObj.curAnim() !== "attack") {
+      this.gameObj.use(sprite(this.sprites.attack));
       this.flipX = currentFlip;
       const slashX = this.pos.x + 30;
       const slashXFlipped = this.pos.x - 350;
@@ -145,7 +147,7 @@ export class Player {
 
       this.play("attack", {
         onEnd: () => {
-          resetPlayerToIdle();
+          this.resetPlayerToIdle();
           this.flipX = currentFlip;
         },
       });
