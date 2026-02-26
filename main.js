@@ -157,8 +157,8 @@ scene("fight", () => {
       return;
     }
 
-    if (player1.health !== 0) {
-      player1.health -= 50;
+    if (player1.gameObj.health !== 0) {
+      player1.gameObj.health -= 50;
       tween(
         player1HealthBar.width,
         player1.gameObj.health,
