@@ -63,11 +63,11 @@ scene("fight", () => {
 
   setGravity(1200);
 
-  /*player1.use(sprite(player1.sprites.idle))
-  player1.play("idle");
+  player1.gameObj.use(sprite(player1.gameObj.sprites.idle));
+  player1.gameObj.play("idle");
 
-  player1.onUpdate(() => resetAfterJump(player1));
-*/
+  //player1.onUpdate(() => resetAfterJump(player1));
+
   const player2 = new Player(
     1000,
     200,
@@ -79,8 +79,8 @@ scene("fight", () => {
     "player2"
   );
 
-  /*player2.use(sprite(player2.sprites.idle));
-  player2.play("idle");*/
+  player2.gameObj.use(sprite(player2.gameObj.sprites.idle));
+  player2.gameObj.play("idle");
   player2.flipX = true;
 
   //player2.onUpdate(() => resetAfterJump());
