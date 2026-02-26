@@ -42,7 +42,7 @@ export class Player {
     });
 
     onKeyRelease(this.right, () => {
-      if (this.health !== 0) {
+      if (this.gameObj.health !== 0) {
         this.resetPlayerToIdle();
         this.flipX = false;
       }
@@ -53,7 +53,7 @@ export class Player {
     });
 
     onKeyRelease(this.left, () => {
-      if (this.health !== 0) {
+      if (this.gameObj.health !== 0) {
         this.resetPlayerToIdle();
         this.flipX = true;
       }
@@ -77,15 +77,15 @@ export class Player {
       return;
     }
     if (this.gameObj.curAnim() !== "run" && !this.gameObj.isCurrentlyJumping) {
-      this.gameObj.use(sprite(this.sprites.run));
+      this.flipX = flipPlayer;
+      this.gameObj.use(sprite(this.gameObj.sprites.run));
       this.gameObj.play("run");
     }
     this.gameObj.move(speed, 0);
-    this.flipX = flipPlayer;
   }
 
   resetPlayerToIdle() {
-    this.gameObj.use(sprite(this.sprites.idle));
+    this.gameObj.use(sprite(this.gameObj.sprites.idle));
     this.gameObj.play("idle");
   }
 
@@ -131,11 +131,11 @@ export class Player {
     }
     const currentFlip = this.flipX;
     if (this.gameObj.curAnim() !== "attack") {
-      this.gameObj.use(sprite(this.sprites.attack));
+      this.gameObj.use(sprite(this.gameObj.sprites.attack));
       this.flipX = currentFlip;
-      const slashX = this.pos.x + 30;
-      const slashXFlipped = this.pos.x - 350;
-      const slashY = this.pos.y - 200;
+      const slashX = this.gameObj.pos.x + 30;
+      const slashXFlipped = this.gameObj.pos.x - 350;
+      const slashY = this.gameObj.pos.y - 200;
 
       add([
         rect(300, 300),
@@ -145,7 +145,7 @@ export class Player {
         this.id + "attackHitbox",
       ]);
 
-      this.play("attack", {
+      this.gameObj.play("attack", {
         onEnd: () => {
           this.resetPlayerToIdle();
           this.flipX = currentFlip;
