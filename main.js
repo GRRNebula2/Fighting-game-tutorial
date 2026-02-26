@@ -152,7 +152,7 @@ scene("fight", () => {
     rotate(180),
   ]);
 
-  onCollide(player1, player2.id + "attackHitbox", () => {
+  onCollide(player1.gameObj, player2.id + "attackHitbox", () => {
     if (gameOver) {
       return;
     }
