@@ -109,18 +109,18 @@ scene("fight", () => {
 
   function declareWinner(winningText, player1, player2) {
     if (
-      (player1.health > 0 && player2.health > 0) ||
-      (player1.health === 0 && player2.health === 0)
+      (player1.gameObj.health > 0 && player2.gameObj.health > 0) ||
+      (player1.gameObj.health === 0 && player2.gameObj.health === 0)
     ) {
       winningText.text = "Tie!";
-    } else if (player1.health > 0 && player2.health === 0) {
+    } else if (player1.gameObj.health > 0 && player2.gameObj.health === 0) {
       winningText.text = "Player 1 won!";
-      //player2.use(sprite(player2.sprites.death));
-      //player2.play("death");
+      player2.gameObj.use(sprite(player2.sprites.death));
+      player2.gameObj.play("death");
     } else {
       winningText.text = "Player 2 won";
-      //player1.use(sprite(player1.sprites.death));
-      //player1.play("death");
+      player1.gameObj.use(sprite(player1.gameObj.sprites.death));
+      player1.gameObj.play("death");
     }
   }
 
@@ -161,7 +161,7 @@ scene("fight", () => {
       player1.health -= 50;
       tween(
         player1HealthBar.width,
-        player1.health,
+        player1.gameObj.health,
         1,
         (val) => {
           player1HealthBar.width = val;
@@ -170,7 +170,7 @@ scene("fight", () => {
       );
     }
 
-    if (player1.health === 0) {
+    if (player1.gameObj.health === 0) {
       clearInterval(countInterval);
       declareWinner(winningText, player1, player2);
       gameOver = true;
@@ -196,11 +196,11 @@ scene("fight", () => {
       return;
     }
 
-    if (player2.health !== 0) {
-      player2.health -= 50;
+    if (player2.gameObj.health !== 0) {
+      player2.gameObj.health -= 50;
       tween(
         player2HealthBar.width,
-        player2.health,
+        player2.gameObj.health,
         1,
         (val) => {
           player2HealthBar.width = val;
