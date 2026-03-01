@@ -1,7 +1,17 @@
 import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
 
 export class Player {
-  constructor(positionX, positionY, speed, left, right, jump, attackKey, id) {
+  constructor(
+    positionX,
+    positionY,
+    speed,
+    left,
+    right,
+    jump,
+    attackKey,
+    id,
+    flipx
+  ) {
     (this.positionX = positionX),
       (this.positionY = positionY),
       (this.speed = speed),
@@ -10,6 +20,7 @@ export class Player {
       (this.jump = jump),
       (this.attackKey = attackKey),
       (this.id = id);
+    this.flipX = flipx;
     (this.excludedKeys = [this.left, this.right, this.jump]), this.makePlayer();
     this.setPlayerMovement();
     this.update();
@@ -43,8 +54,8 @@ export class Player {
 
     onKeyRelease(this.right, () => {
       if (this.gameObj.health !== 0) {
+        this.gameObj.flipX = false;
         this.resetPlayerToIdle();
-        this.flipX = false;
       }
     });
 
@@ -54,8 +65,9 @@ export class Player {
 
     onKeyRelease(this.left, () => {
       if (this.gameObj.health !== 0) {
+        this.gameObj.flipX = true;
         this.resetPlayerToIdle();
-        this.flipX = true;
+
       }
     });
 
@@ -77,7 +89,7 @@ export class Player {
       return;
     }
     if (this.gameObj.curAnim() !== "run" && !this.gameObj.isCurrentlyJumping) {
-      this.flipX = flipPlayer;
+      this.gameObj.flipX = flipPlayer;
       this.gameObj.use(sprite(this.gameObj.sprites.run));
       this.gameObj.play("run");
     }
@@ -95,10 +107,10 @@ export class Player {
     }
 
     if (this.gameObj.isGrounded()) {
-      const currentFlip = player.flipX;
+      const currentFlip = this.gameObj.flipX;
       this.gameObj.jump();
       this.gameObj.use(sprite(this.sprites.jump));
-      this.flipX = currentFlip;
+      this.gameObj.flipX = currentFlip;
       this.gameObj.play("jump");
       this.gameObj.isCurrentlyJumping = true;
     }
@@ -132,7 +144,7 @@ export class Player {
     const currentFlip = this.flipX;
     if (this.gameObj.curAnim() !== "attack") {
       this.gameObj.use(sprite(this.gameObj.sprites.attack));
-      this.flipX = currentFlip;
+      this.gameObj.flipX = currentFlip;
       const slashX = this.gameObj.pos.x + 30;
       const slashXFlipped = this.gameObj.pos.x - 350;
       const slashY = this.gameObj.pos.y - 200;
@@ -148,7 +160,7 @@ export class Player {
       this.gameObj.play("attack", {
         onEnd: () => {
           this.resetPlayerToIdle();
-          this.flipX = currentFlip;
+          this.gameObj.flipX = currentFlip;
         },
       });
     }

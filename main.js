@@ -59,7 +59,17 @@ scene("fight", () => {
 
   background.add([sprite("sign"), pos(290, 115)]);
 
-  const player1 = new Player(200, 100, 500, "a", "d", "w", "space", "player1");
+  const player1 = new Player(
+    200,
+    100,
+    500,
+    "a",
+    "d",
+    "w",
+    "space",
+    "player1",
+    false
+  );
 
   setGravity(1200);
 
@@ -76,13 +86,13 @@ scene("fight", () => {
     "right",
     "up",
     "down",
-    "player2"
+    "player2",
+    true
   );
 
   player2.gameObj.use(sprite(player2.gameObj.sprites.idle));
   player2.gameObj.play("idle");
-  player2.flipX = true;
-
+  
   //player2.onUpdate(() => resetAfterJump());
 
   const counter = add([
