@@ -7,7 +7,7 @@ export class Player {
     speed,
     left,
     right,
-    jump,
+    up,
     attackKey,
     id,
     flipx
@@ -17,11 +17,11 @@ export class Player {
       (this.speed = speed),
       (this.left = left),
       (this.right = right),
-      (this.jump = jump),
+      (this.up = up),
       (this.attackKey = attackKey),
       (this.id = id);
     this.flipX = flipx;
-    (this.excludedKeys = [this.left, this.right, this.jump]), this.makePlayer();
+    (this.excludedKeys = [this.left, this.right, this.up]), this.makePlayer();
     this.setPlayerMovement();
     this.update();
   }
@@ -107,10 +107,10 @@ export class Player {
     }
 
     if (this.gameObj.isGrounded()) {
-      const currentFlip = this.gameObj.flipX;
+      //const currentFlip = this.gameObj.flipX;
       this.gameObj.jump();
       this.gameObj.use(sprite(this.sprites.jump));
-      this.gameObj.flipX = currentFlip;
+      //this.gameObj.flipX = currentFlip;
       this.gameObj.play("jump");
       this.gameObj.isCurrentlyJumping = true;
     }
