@@ -9,7 +9,7 @@ kaboom({
   height: 720,
   letterbox: true,
 });
-    
+
 load.assets();
 
 scene("fight", () => {
@@ -162,7 +162,7 @@ scene("fight", () => {
     rotate(180),
   ]);
 
-  onCollide(player1.gameObj, player2.id + "attackHitbox", () => {
+  player1.gameObj.onCollide(player2.id + "attackHitbox", () => {
     if (gameOver) {
       return;
     }
@@ -187,21 +187,7 @@ scene("fight", () => {
     }
   });
 
-  const player2HealthContainer = add([
-    rect(500, 70),
-    area(),
-    outline(5),
-    pos(690, 20),
-    color(200, 0, 0),
-  ]);
-
-  const player2HealthBar = player2HealthContainer.add([
-    rect(498, 65),
-    color(0, 180, 0),
-    pos(2.5, 2.5),
-  ]);
-
-  onCollide(player2, player1.id + "attackHitbox", () => {
+  player2.gameObj.onCollide(player1.id + "attackHitbox", () => {
     if (gameOver) {
       return;
     }
@@ -219,12 +205,26 @@ scene("fight", () => {
       );
     }
 
-    if (player2.health === 0) {
+    if (player2.gameObj.health === 0) {
       clearInterval(countInterval);
       declareWinner(winningText, player1, player2);
       gameOver = true;
     }
   });
+
+  const player2HealthContainer = add([
+    rect(500, 70),
+    area(),
+    outline(5),
+    pos(690, 20),
+    color(200, 0, 0),
+  ]);
+
+  const player2HealthBar = player2HealthContainer.add([
+    rect(498, 65),
+    color(0, 180, 0),
+    pos(2.5, 2.5),
+  ]);
 });
 
 go("fight");
