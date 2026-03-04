@@ -142,7 +142,7 @@ export class Player {
         return;
       }
     }
-    const currentFlip = this.flipX;
+    const currentFlip = this.gameObj.flipX;
     if (this.gameObj.curAnim() !== "attack") {
       this.gameObj.use(sprite(this.gameObj.sprites.attack));
       this.gameObj.flipX = currentFlip;
