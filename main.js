@@ -9,7 +9,7 @@ kaboom({
   height: 720,
   letterbox: true,
 });
-
+    
 load.assets();
 
 scene("fight", () => {

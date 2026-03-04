@@ -89,10 +89,10 @@ export class Player {
       return;
     }
     if (this.gameObj.curAnim() !== "run" && !this.gameObj.isCurrentlyJumping) {
-      this.gameObj.flipX = flipPlayer;
       this.gameObj.use(sprite(this.gameObj.sprites.run));
       this.gameObj.play("run");
     }
+    this.gameObj.flipX = flipPlayer;
     this.gameObj.move(speed, 0);
   }
 
@@ -107,10 +107,10 @@ export class Player {
     }
 
     if (this.gameObj.isGrounded()) {
-      //const currentFlip = this.gameObj.flipX;
+      const currentFlip = this.gameObj.flipX;
       this.gameObj.jump();
       this.gameObj.use(sprite(this.sprites.jump));
-      //this.gameObj.flipX = currentFlip;
+      this.gameObj.flipX = currentFlip;
       this.gameObj.play("jump");
       this.gameObj.isCurrentlyJumping = true;
     }
