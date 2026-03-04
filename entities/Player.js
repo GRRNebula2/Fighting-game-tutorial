@@ -110,7 +110,7 @@ export class Player {
     if (this.gameObj.isGrounded()) {
       const currentFlip = this.gameObj.flipX;
       this.gameObj.jump();
-      this.gameObj.use(sprite(this.sprites.jump));
+      this.gameObj.use(sprite(this.gameObj.sprites.jump));
       this.gameObj.flipX = currentFlip;
       this.gameObj.play("jump");
       this.gameObj.isCurrentlyJumping = true;
