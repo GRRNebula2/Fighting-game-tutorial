@@ -55,7 +55,7 @@ export class Player {
     onKeyRelease(this.right, () => {
       if (this.gameObj.health !== 0) {
         this.gameObj.flipX = false;
-        this.resetPlayerToIdle();
+        this.resetPlayerToIdle(false);
       }
     });
 
@@ -66,7 +66,7 @@ export class Player {
     onKeyRelease(this.left, () => {
       if (this.gameObj.health !== 0) {
         this.gameObj.flipX = true;
-        this.resetPlayerToIdle();
+        this.resetPlayerToIdle(true);
 
       }
     });
@@ -96,8 +96,9 @@ export class Player {
     this.gameObj.move(speed, 0);
   }
 
-  resetPlayerToIdle() {
+  resetPlayerToIdle(flipPlayer) {
     this.gameObj.use(sprite(this.gameObj.sprites.idle));
+    this.gameObj.flipX = flipPlayer;
     this.gameObj.play("idle");
   }
 
@@ -120,7 +121,7 @@ export class Player {
     if (this.gameObj.isGrounded() && this.gameObj.isCurrentlyJumping) {
       this.gameObj.isCurrentlyJumping = false;
       if (this.gameObj.curAnim() !== "idle") {
-        this.resetPlayerToIdle();
+        this.resetPlayerToIdle(this.gameObj.flipX);
       }
     }
   }
